@@ -15,7 +15,7 @@ import { DiceRollerInstantiationFactory } from '../fluid-object/dice-roller-data
  * Container with a URL of "/", so it can be retrieved via container.request("/").
  */
 export const DiceRollerContainerRuntimeFactory = new ContainerRuntimeFactoryWithDefaultDataStore(
-    DiceRollerInstantiationFactory.type,
+    DiceRollerInstantiationFactory,
     new Map([
         DiceRollerInstantiationFactory.registryEntry,
     ]),
