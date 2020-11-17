@@ -2,7 +2,7 @@
 
 import { DataObject, DataObjectFactory } from '@fluidframework/aqueduct';
 import { IValueChanged } from '@fluidframework/map';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 /**
  * IDiceRoller describes the public API surface for our dice roller data object.
@@ -17,6 +17,8 @@ export interface IDiceRoller {
      * Roll the dice.  Will cause a "diceRolled" event to be emitted.
      */
     roll: () => void;
+
+    dataChanged$: Observable<number>;
 }
 
 // The root is map-like, so we'll use this key for storing the value.
