@@ -16,20 +16,20 @@ export class PadComponent {
   @Output() createNote: EventEmitter<string> = new EventEmitter<string>();
   @Output() highlightUser: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  noteText: string = '';
+  noteText = '';
 
-  onCreateNote() {
+  onCreateNote(): void {
     this.createNote.emit(this.noteText);
     this.noteText = '';
   }
 
-  onNoteFocus() {
+  onNoteFocus(): void {
     if (!this.noteText.length) {
       this.noteText = AutoNote.createDemoNote();
     }
   }
 
-  onHighlightMe(){
+  onHighlightMe(): void{
     this.highlightMine = !this.highlightMine;
     this.highlightUser.emit(this.highlightMine);
   }

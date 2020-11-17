@@ -270,7 +270,7 @@ export class Notero extends DataObject implements INoteroDataModel {
  * Note: This project uses SharedMap so it is added below...
  */
 export const NoteroInstantiationFactory = new DataObjectFactory(
-    "Notero",
+    'Notero',
     Notero,
     [
         SharedMap.getFactory(),

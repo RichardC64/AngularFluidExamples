@@ -9,11 +9,11 @@ import { INoteWithVotes, IUser } from '../fluid-object';
 export class BoardComponent {
 
   @Input() notes!: INoteWithVotes[];
-  @Input() user! : IUser;
-  @Input() highlightMine: boolean = false;
+  @Input() user!: IUser;
+  @Input() highlightMine = false;
 
   @Output() Vote: EventEmitter<INoteWithVotes> = new EventEmitter<INoteWithVotes>();
-  onVote(note: INoteWithVotes) {
+  onVote(note: INoteWithVotes): void {
     this.Vote.emit(note);
   }
 }

@@ -6,10 +6,10 @@ import { Observable } from 'rxjs';
  * Note that the model primarily uses interfaces, not classes.
  * When objects are stored in Fluid DDSs,
  * they are serialized and deserialized over the wire.
- * Using interfaces avoids any issues with calling functions 
- * that are no longer present on an object. 
+ * Using interfaces avoids any issues with calling functions
+ * that are no longer present on an object.
  */
-   
+
 export interface INote {
     id: string;
     text: string;
@@ -27,9 +27,9 @@ export interface IUser {
 }
 
 export interface IBallot {
-    id: string,
-    noteId: string,
-    user: IUser
+    id: string;
+    noteId: string;
+    user: IUser;
 }
 
 export interface INoteroDataModel {

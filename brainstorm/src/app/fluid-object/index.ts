@@ -1,2 +1,2 @@
-export * from "./interfaces";
-export * from "./notero-data-object";
+export * from './interfaces';
+export * from './notero-data-object';

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { getTinyliciousContainer } from "@fluidframework/get-tinylicious-container";
-import { getDefaultObjectFromContainer } from "@fluidframework/aqueduct";
+import { getTinyliciousContainer } from '@fluidframework/get-tinylicious-container';
+import { getDefaultObjectFromContainer } from '@fluidframework/aqueduct';
 import { from, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
