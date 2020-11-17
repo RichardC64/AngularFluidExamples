@@ -4,18 +4,18 @@ import { v4 as uuidv4 } from 'uuid';
 import {
     DataObject,
     DataObjectFactory,
-} from "@fluidframework/aqueduct";
-import { SharedMap } from "@fluidframework/map";
-import { IFluidHandle } from "@fluidframework/core-interfaces";
+} from '@fluidframework/aqueduct';
+import { SharedMap } from '@fluidframework/map';
+import { IFluidHandle } from '@fluidframework/core-interfaces';
 
 import {
     IBallot,
     INote,
     INoteroDataModel,
     IUser,
-} from "./interfaces";
-import { NoteWithVotes } from "./note-with-votes";
-import { AutoNote, FakeUser } from "./demo";
+} from './interfaces';
+import { NoteWithVotes } from './note-with-votes';
+import { AutoNote, FakeUser } from './demo';
 import { BehaviorSubject } from 'rxjs';
 
 export class Notero extends DataObject implements INoteroDataModel {
@@ -40,11 +40,11 @@ export class Notero extends DataObject implements INoteroDataModel {
      * This method is used to perform component setup,
      * which can include setting an initial schema or initial values.
      */
-    protected async initializingFirstTime() {
+    protected async initializingFirstTime(): Promise<void> {
         // Create SharedMaps for the notes, votes, and users
-        this.createSharedMap("notes");
-        this.createSharedMap("votes");
-        this.createSharedMap("users");
+        this.createSharedMap('notes');
+        this.createSharedMap('votes');
+        this.createSharedMap('users');
     }
 
     /**
@@ -56,23 +56,23 @@ export class Notero extends DataObject implements INoteroDataModel {
     }
 
     /**
-    * hasInitialized is called every
-    * time a client joins a session.
-    *
-    * This method is used to perform tasks required
-    * for each client like initializing event listeners.
-    */
-    protected async hasInitialized() {
+     * hasInitialized is called every
+     * time a client joins a session.
+     *
+     * This method is used to perform tasks required
+     * for each client like initializing event listeners.
+     */
+    protected async hasInitialized(): Promise<void> {
         // Create local references to the SharedMaps.
         // Otherwise, they need to be called async which is inconvenient.
-        this.notesMap = await this.root.get<IFluidHandle<SharedMap>>("notes").get();
-        this.votesMap = await this.root.get<IFluidHandle<SharedMap>>("votes").get();
-        this.usersMap = await this.root.get<IFluidHandle<SharedMap>>("users").get();
+        this.notesMap = await this.root.get<IFluidHandle<SharedMap>>('notes').get();
+        this.votesMap = await this.root.get<IFluidHandle<SharedMap>>('votes').get();
+        this.usersMap = await this.root.get<IFluidHandle<SharedMap>>('users').get();
 
         // Add the current user to set of collaborators.
         this.addUser();
 
-        // Set up event listeners to update the ui when data changes               
+        // Set up event listeners to update the ui when data changes
         this.createObservables(this.notesMap);
         this.createObservables(this.votesMap);
         this.createObservables(this.usersMap);
@@ -83,31 +83,31 @@ export class Notero extends DataObject implements INoteroDataModel {
      */
     private createObservables(sharedMap: SharedMap): void {
         // Set up an event listener for changes to values in the SharedMap
-        sharedMap.on("valueChanged", () => {
+        sharedMap.on('valueChanged', () => {
             console.log('valueChanged');
             this.dataChangedSubject$.next(true);
         });
 
-        //Set up an event listener for clearing the data in a SharedMap
-        sharedMap.on("clear", () => {
+        // Set up an event listener for clearing the data in a SharedMap
+        sharedMap.on('clear', () => {
             console.log('clear');
             this.dataChangedSubject$.next(true);
         });
 
         const quorum = this.context.getQuorum();
-        quorum.on("addMember", () => {
+        quorum.on('addMember', () => {
             console.log('addMember');
             this.dataChangedSubject$.next(true);
         });
 
-        quorum.on("removeMember", () => {
+        quorum.on('removeMember', () => {
             console.log('removeMember');
             this.dataChangedSubject$.next(true);
         });
     }
 
     public createDemoNote = (): string => {
-        return AutoNote.createDemoNote()
+        return AutoNote.createDemoNote();
     }
 
     /*
@@ -117,7 +117,7 @@ export class Notero extends DataObject implements INoteroDataModel {
         if (text) {
             const note: INote = {
                 id: uuidv4(),
-                text: text,
+                text,
                 user: this.getUser()
             };
             this.notesMap.set(note.id, note);
@@ -137,9 +137,9 @@ export class Notero extends DataObject implements INoteroDataModel {
         // Create a ballot object literal that encapsulates the information about
         // the vote to store in the votesMap Fluid DDS
         const ballot: IBallot = {
-            id: id,
+            id,
             noteId: note.id,
-            user: user
+            user
         };
 
         // Check to see if the current user already voted.
@@ -159,7 +159,7 @@ export class Notero extends DataObject implements INoteroDataModel {
     public getNotesFromBoard = (): NoteWithVotes[] => {
         // Initialize an array of objects that will contain all the
         // information necessary for React to render the notes
-        let notes: NoteWithVotes[] = [];
+        const notes: NoteWithVotes[] = [];
 
         // Call a function that returns a map of note ids,
         // the number of votes each note received
@@ -172,10 +172,15 @@ export class Notero extends DataObject implements INoteroDataModel {
             let numVotes = 0;
             let voted = false;
             if (votes.has(i.id)) {
-                numVotes = votes.get(i.id)!.count;
-                voted = votes.get(i.id)!.voted;
+                const vote = votes.get(i.id);
+                if (vote != null) {
+                    numVotes = vote.count;
+                    voted = vote.voted;
+                } else {
+                    throw new Error('Unable to find vote');
+                }
             }
-            notes.push(new NoteWithVotes(i, numVotes, voted))
+            notes.push(new NoteWithVotes(i, numVotes, voted));
         });
         return notes;
     }
@@ -188,7 +193,7 @@ export class Notero extends DataObject implements INoteroDataModel {
         // Initialize a map indexed on note id where the value is an
         // object literal containing the vote count and
         // whether the current user voted
-        let voteCounts = new Map();
+        const voteCounts = new Map();
 
         // Get the current user
         const user = this.getUser();
@@ -205,16 +210,16 @@ export class Notero extends DataObject implements INoteroDataModel {
                     i.noteId,
                     {
                         count: voteCounts.get(i.noteId).count + 1,
-                        voted: (i.user.id == user.id) || voteCounts.get(i.noteId).voted
+                        voted: (i.user.id === user.id) || voteCounts.get(i.noteId).voted
                     });
             } else {
-                // Create a new item with indexed on the current note id and see if this vote came from the 
+                // Create a new item with indexed on the current note id and see if this vote came from the
                 // current user and set voted to true if it did
                 voteCounts.set(
                     i.noteId,
                     {
                         count: 1,
-                        voted: (i.user.id == user.id)
+                        voted: (i.user.id === user.id)
                     });
             }
         });
@@ -228,8 +233,8 @@ export class Notero extends DataObject implements INoteroDataModel {
     public addUser = (): void => {
         // Check for a userId in SessionStorage - this prevents refresh from generating a new user
         const userId = sessionStorage.getItem('userId');
-        if (userId && this.usersMap.get<IUser>(userId)){
-            this.userId = userId; //This session might have has a user
+        if (userId && this.usersMap.get<IUser>(userId)) {
+            this.userId = userId; // This session might have has a user
         } else {
             const user: IUser = {
                 id: FakeUser.getFakeUserId(),
@@ -250,7 +255,7 @@ export class Notero extends DataObject implements INoteroDataModel {
 
     /**
      * Get an array of all IUser literal objects for users
-     * who have joined the session (even if they have left). 
+     * who have joined the session (even if they have left).
      */
     public getUsers(): IUser[] {
         const users: IUser[] = [];
@@ -266,7 +271,7 @@ export class Notero extends DataObject implements INoteroDataModel {
  * and defines any additional distributed data structures.
  * To add a SharedSequence, SharedMap, or any other
  * structure, put it in the array below.
- * 
+ *
  * Note: This project uses SharedMap so it is added below...
  */
 export const NoteroInstantiationFactory = new DataObjectFactory(
