@@ -1,6 +1,6 @@
 // Original file from Microsoft Corporation can be find at : https://github.com/microsoft/FluidExamples
 
-import { ContainerRuntimeFactoryWithDefaultDataStore } from "@fluidframework/aqueduct";
+import { ContainerRuntimeFactoryWithDefaultDataStore } from '@fluidframework/aqueduct';
 import { NoteroInstantiationFactory } from '../fluid-object';
 
 /**

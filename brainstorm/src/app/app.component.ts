@@ -15,7 +15,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private sub!: Subscription;
   model!: Notero;
 users!: IUser[];
-user! : IUser;
+user!: IUser;
 notes!: INoteWithVotes[];
 highlightMine = false;
 
@@ -43,11 +43,11 @@ highlightMine = false;
     this.sub.unsubscribe();
   }
 
-  onCreateNote(noteText: string){
+  onCreateNote(noteText: string): void{
     this.model.createNote(noteText);
   }
 
-  onVote(note: INoteWithVotes){
+  onVote(note: INoteWithVotes): void{
     this.model.vote(note);
   }
 }
