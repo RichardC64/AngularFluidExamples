@@ -1,0 +1,31 @@
+.board {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;    
+    align-items: center;   
+    margin: 1em;  
+    background-color: white;
+  }
+
+  .note-badge {
+    display: inline-block;
+    min-width: 1.4em;
+    padding: 0 0 .1em 0;
+    border-radius: 50%;
+    font-size: .6em;
+    font-weight: bold;
+    text-align: center;
+    background: #fff;
+    color: black;
+    position: absolute;
+    right: -0.5em;
+    top: -0.25em;
+    z-index: 999;
+    box-shadow: 0 0.1em 0.2em rgba(0,0,0,0.15);
+    border: solid green .2em;
+  }
+  
+    .note-badge.voted {
+      background: green;
+      color: white;
+    }

@@ -1,0 +1,2 @@
+<app-pad [user]='user' [users]='users' (createNote)='onCreateNote($event)' (highlightUser)='highlightMine = !highlightMine'></app-pad>
+<app-board [notes]='notes' [user]='user' (Vote)='onVote($event)' [highlightMine]='highlightMine'></app-board>

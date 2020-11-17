@@ -1,7 +1,4 @@
-/*!
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License.
- */
+// Original file from Microsoft Corporation can be find at : https://github.com/microsoft/FluidExamples
 
 import { v4 as uuidv4 } from 'uuid';
 

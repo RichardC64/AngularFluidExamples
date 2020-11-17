@@ -1,0 +1,8 @@
+<div class="board">
+  <ng-container *ngFor='let note of notes'>
+    <button class='note' [class]="note.user.id !== user.id && highlightMine ? 'others' : '' " (click)='onVote(note)'>
+      <span *ngIf='note.votes > 0' class='note-badge' [class]="note.currentUserVoted ? 'voted' : ''">{{note.votes}}</span>
+      <span class="note-text">{{note.text}}</span>
+    </button>
+  </ng-container>
+</div>

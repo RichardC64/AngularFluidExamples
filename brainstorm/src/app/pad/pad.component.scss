@@ -1,0 +1,49 @@
+.container {
+    display: flex;    
+    align-items: center;
+    background-color: #bbb;    
+    margin: 1em;    
+  }
+
+  .pad {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    align-items: center;
+    background-color: #eee;
+    padding: .5em;    
+  }
+
+  .button {
+    display: inline-block;
+    vertical-align: middle;
+    border: none;
+    border-radius: 0.2em;
+    margin: .5em;
+    padding: .5em 2em .5em 2em;
+    text-decoration: none;
+    background: #666;
+    color: #fff;  
+    font-size: .8em;
+    cursor: pointer;  
+    transition: 150ms ease-in-out, transform 50ms ease;
+    height: 2em;
+    width: 13em;
+    user-select: none;    
+  }
+  
+    .button:hover, .button:focus {
+      background: #0053ba;
+    }
+  
+    .button:focus {
+      outline: none;    
+    }
+  
+    .button:active {
+      transform: scale(0.98);
+    } 
+  
+    .button:disabled {
+      background: #ccc;
+    }

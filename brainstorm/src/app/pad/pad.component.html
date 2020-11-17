@@ -1,0 +1,13 @@
+<div class="container">
+  <div class="pad">
+    <!-- Note Editor-->
+    <div class="note editor">
+      <textarea (focus)='onNoteFocus()' [(ngModel)]='noteText' class="note-text"></textarea>
+    </div>
+    <Button class="button" (click)='onCreateNote()'>Share my idea</Button>
+    <Button class="button" (click)='onHighlightMe()'>{{highlightMine ? 'Stop highlighting' : 'Highlight my ideas'}}</Button>
+
+    <!-- UserName -->
+    <app-user-name [user]='user' [users]='users'></app-user-name> 
+  </div>
+</div>
